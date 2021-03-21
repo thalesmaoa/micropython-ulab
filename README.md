@@ -192,6 +192,7 @@ Next, update the submodules,
 ```bash
 git submodule update --init
 cd ./mpy-cross && make # build cross-compiler (required)
+cd ..
 ```
 and find the ESP commit hash
 
@@ -202,6 +203,7 @@ make ESPIDF= # will display supported ESP-IDF commit hashes
 # ...
 # Supported git hash (v3.3): 9e70825d1e1cbf7988cf36981774300066580ea7
 # Supported git hash (v4.0) (experimental): 4c81978a3e2220674a432a588292a4c860eef27b
+cd ../../
 ```
 
 Choose an ESPIDF version from one of the options printed by the previous command:
@@ -230,7 +232,7 @@ git clone https://github.com/espressif/esp-idf.git esp-idf
 cd ./esp-idf
 git checkout $ESPIDF_VER
 git submodule update --init --recursive # get idf submodules
-pip install -r ./requirements.txt # install python reqs
+sudo -H pip install -r ./requirements.txt # install python reqs
 ```
 
 Next, still staying in `./micropython/eps32/esd-idf/`, install the ESP32 compiler. If using an ESP-IDF version >= 4.x (chosen by `$ESPIDF_VER` above), this can be done by running `. $BUILD_DIR/esp-idf/install.sh`. Otherwise, for version 3.x, run the following commands in in `.micropython/esp32/esp-idf`:
@@ -250,10 +252,11 @@ curl https://dl.espressif.com/dl/xtensa-esp32-elf-linux64-1.22.0-80-g6c4433a-5.2
 Finally, build the firmware:
 
 ```bash
+cd ../../../
 cd ./micropython/ports/esp32
 # temporarily add esp32 compiler to path
 export PATH=../../esp32/esp-idf/xtensa-esp32-elf/bin:$PATH
-export ESPIDF=esp-idf # req'd by Makefile
+export ESPIDF=../../esp32/esp-idf# req'd by Makefile
 export BOARD=GENERIC # options are dirs in ./boards
 export USER_C_MODULES=../../../ulab # include ulab in firmware
 
